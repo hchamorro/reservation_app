@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <title>Table</title>
+  </head>
+  <body>
+    <div class="container">
+            <div class="jumbotron">
+              <h1>Reservation</h1>
+              <h3>Book Your Seat</h3>
+              <hr>
+              <a href="/reservations"><button class="btn btn-danger btn-lg"><span class="fa fa-plus"></span> Make Reservation</button></a>
+              <a href="/tables"><button class="btn btn-danger btn-lg"><span
+                    class="fa fa-eye"></span> View Tables</button></a>
+            </div>
+
+    
+              <div class="js-rsvp"></div>
+              <h1>Waitlist</h1>
+              <div class="js-waitlist"></div>
+    <script>
+      $.get("/api/reservations").then(data => {
+        //get raw data
+        console.log(data);
+        //parse
+        let allTableDiv ="";
+        data.forEach(rsvp => {
+            const name = rsvp.name;
+            const phone = rsvp.phone;
+            tableDiv = `
+            <div class="card">
+            <div class="card-body">
+              <div id="stats">
+                <div class="card-header">
+                 <h3><strong>Reservation</strong></h3>
+                </div>
+                <h3><strong>Name:</strong> <span id="name">${name}</span></h3>
+                <h4><strong>Name:</strong> <span id="name">${phone}</span></h4>
+              </div>
+              </div>
+              <div class="js-rsvp"></div>
+              `
+            allTableDiv += tableDiv;
+            
+        });
+        
+
+        $(".js-rsvp").append(allTableDiv)
+
+        //render to html
+      });
+
+      $.get("/api/waitlist").then(data => {
+        //get raw data
+        console.log(data);
+        //parse
+        let allTableDiv ="";
+        data.forEach(rsvp => {
+            const name = rsvp.name;
+            const phone = rsvp.phone;
+            tableDiv = `
+            <div class="card">
+            <div class="card-body">
+              <div id="stats">
+                <div class="card-header">
+                 <h3><strong>Wait List</strong></h3>
+                </div>
+                <h3><strong>Name:</strong> <span id="name">${name}</span></h3>
+                <h4><strong>Name:</strong> <span id="name">${phone}</span></h4>
+              </div>
+              </div>
+              <div class="js-rsvp"></div>
+              `
+            allTableDiv += tableDiv;
+            
+        });
+        
+
+        $(".js-waitlist").append(allTableDiv)
+
+        //render to html
+      });
+    </script>
+  </body>
+</html>
